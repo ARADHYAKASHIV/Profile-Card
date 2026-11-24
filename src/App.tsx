@@ -3,6 +3,7 @@ import { Sun, Moon, QrCode, Wifi, RotateCcw, Terminal, CreditCard, Sparkles } fr
 import { PROFILE_DATA } from './config/profile.config.ts';
 import { downloadVCard } from './utils/vcard.ts';
 import { SpotlightCard } from './components/react-bits/SpotlightCard.tsx';
+import { TiltedCard, TiltedCardLayer } from './components/react-bits/TiltedCard.tsx';
 import { ClickSpark } from './components/react-bits/ClickSpark.tsx';
 import { CustomCursor } from './components/CustomCursor.tsx';
 import { HeroSection } from './components/HeroSection.tsx';
@@ -29,6 +30,35 @@ export function App() {
   // 3D Card Tilt State for desktop
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
+
+  // Phone-exclusive Touch Swipe Detection
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    // Phone-exclusive: only active on mobile / tablet screens (<1024px)
+    if (typeof window !== 'undefined' && window.innerWidth >= 1024) return;
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (typeof window !== 'undefined' && window.innerWidth >= 1024) return;
+    if (touchStartX.current === null || touchStartY.current === null) return;
+
+    const deltaX = e.changedTouches[0].clientX - touchStartX.current;
+    const deltaY = e.changedTouches[0].clientY - touchStartY.current;
+
+    // Detect horizontal swipe with minimum 40px displacement
+    if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.3) {
+      triggerHaptic('medium');
+      playSoftClick();
+      setIsCardFlipped((prev) => !prev);
+    }
+
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
 
   useEffect(() => {
     const root = document.documentElement;
@@ -224,85 +254,110 @@ export function App() {
 
           {/* Responsive Studio Grid: 1 Col on Mobile, 2 Cols on PC / Laptops */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-start">
-            {/* Left Column: Interactive NFC Profile Card (390px on mobile, col-span-5 on desktop) */}
+            {/* Left Column: Interactive NFC Profile Card with React Bits TiltedCard on PC */}
             <div
-              className={`w-full lg:col-span-5 ${
+              className={`w-full lg:col-span-5 touch-pan-y ${
                 mobileTab === 'studio' ? 'hidden lg:block' : 'block'
               }`}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-              ref={cardRef}
-              style={{
-                perspective: '1000px',
-              }}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
             >
-              <div
-                style={{
-                  transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-                  transition: 'transform 0.15s ease-out',
-                }}
+              <TiltedCard
+                flipped={isCardFlipped}
+                onFlip={(flipped) => setIsCardFlipped(flipped)}
+                flipOnClick={false}
+                rotateAmplitude={13}
+                scaleOnHover={1.04}
+                smoothness={0.65}
+                parallax={1.5}
+                glare={isLight ? 0.24 : 0.45}
+                glareColor={accentColor}
+                shadow={isLight ? 0.38 : 0.65}
+                radius={26}
+                containerWidth="100%"
+                imageWidth="100%"
+                containerHeight="auto"
+                imageHeight="auto"
+                showTooltip={false}
+                className="w-full"
+                backContent={
+                  <SpotlightCard
+                    theme={theme}
+                    intensity={isLight ? 0.25 : 0.2}
+                    spotlightSize={260}
+                    className={`flex flex-col justify-between h-full p-3.5 sm:p-5 rounded-[26px] border transition-all duration-300 relative ${
+                      isLight
+                        ? 'bg-white/95 border-slate-200/90 shadow-[0_15px_40px_rgba(15,23,42,0.06)]'
+                        : 'bg-[#0E1017]/90 border-white/[0.09] shadow-[0_25px_60px_rgba(0,0,0,0.75)]'
+                    }`}
+                  >
+                    <TiltedCardLayer depth={28}>
+                      <NfcSpecsBack
+                        theme={theme}
+                        accentColor={accentColor}
+                        onFlipBack={handleFlipCard}
+                      />
+                    </TiltedCardLayer>
+                  </SpotlightCard>
+                }
               >
                 <SpotlightCard
                   theme={theme}
                   intensity={isLight ? 0.25 : 0.2}
                   spotlightSize={260}
-                  className={`flex flex-col gap-3 p-3.5 sm:p-5 rounded-[26px] border transition-all duration-300 relative overflow-hidden ${
+                  className={`flex flex-col gap-3 p-3.5 sm:p-5 rounded-[26px] border transition-all duration-300 relative ${
                     isLight
                       ? 'bg-white/95 border-slate-200/90 shadow-[0_15px_40px_rgba(15,23,42,0.06)]'
-                      : 'bg-[#0E1017]/85 border-white/[0.09] shadow-[0_25px_60px_rgba(0,0,0,0.75)]'
+                      : 'bg-[#0E1017]/90 border-white/[0.09] shadow-[0_25px_60px_rgba(0,0,0,0.75)]'
                   }`}
                 >
-                  {isCardFlipped ? (
-                    <NfcSpecsBack
+                  {/* Layer 1: Bento Hero Identity Tile with highest 3D pop up */}
+                  <TiltedCardLayer depth={36}>
+                    <HeroSection
+                      person={PROFILE_DATA.person}
                       theme={theme}
                       accentColor={accentColor}
-                      onFlipBack={handleFlipCard}
+                      onSaveContact={handleSaveContact}
+                      onShare={handleShare}
+                      onFlipCard={handleFlipCard}
+                      onSelectSkill={(skill) => setSelectedSkill(skill)}
                     />
-                  ) : (
-                    <>
-                      {/* Bento Hero Identity Tile with Interactive Status & Tech Pills */}
-                      <HeroSection
-                        person={PROFILE_DATA.person}
-                        theme={theme}
-                        accentColor={accentColor}
-                        onSaveContact={handleSaveContact}
-                        onShare={handleShare}
-                        onFlipCard={handleFlipCard}
-                        onSelectSkill={(skill) => setSelectedSkill(skill)}
-                      />
+                  </TiltedCardLayer>
 
-                      {/* Bento Direct Reach Grid with Immediate Audio & Copy Feedback */}
-                      <DirectReachGrid
-                        contact={PROFILE_DATA.contact}
-                        theme={theme}
-                        onCopy={handleCopy}
-                      />
+                  {/* Layer 2: Bento Direct Reach Grid floating in 3D */}
+                  <TiltedCardLayer depth={24}>
+                    <DirectReachGrid
+                      contact={PROFILE_DATA.contact}
+                      theme={theme}
+                      onCopy={handleCopy}
+                    />
+                  </TiltedCardLayer>
 
-                      {/* Bento Social & Portfolio Grid */}
-                      <SocialBento
-                        socials={PROFILE_DATA.socials}
-                        theme={theme}
-                      />
+                  {/* Layer 3: Bento Social & Portfolio Grid floating in 3D */}
+                  <TiltedCardLayer depth={20}>
+                    <SocialBento
+                      socials={PROFILE_DATA.socials}
+                      theme={theme}
+                    />
+                  </TiltedCardLayer>
 
-                      {/* Minimalist Footer Hint */}
-                      <footer
-                        className={`pt-2 border-t flex flex-col items-center text-center gap-1 ${
-                          isLight ? 'border-slate-100' : 'border-white/[0.06]'
-                        }`}
-                      >
-                        <div
-                          className={`inline-flex items-center gap-1.5 text-[10px] font-medium ${
-                            isLight ? 'text-slate-500' : 'text-slate-400'
-                          }`}
-                        >
-                          <Wifi className="w-3 h-3 rotate-90" style={{ color: accentColor }} />
-                          <span>Tap NFC card near device to connect</span>
-                        </div>
-                      </footer>
-                    </>
-                  )}
+                  {/* Minimalist Footer Hint */}
+                  <footer
+                    className={`pt-2 border-t flex flex-col items-center text-center gap-1 ${
+                      isLight ? 'border-slate-100' : 'border-white/[0.06]'
+                    }`}
+                  >
+                    <div
+                      className={`inline-flex items-center gap-1.5 text-[10px] font-medium ${
+                        isLight ? 'text-slate-500' : 'text-slate-400'
+                      }`}
+                    >
+                      <Wifi className="w-3 h-3 rotate-90" style={{ color: accentColor }} />
+                      <span>Swipe card ⇄ or tap to flip specs</span>
+                    </div>
+                  </footer>
                 </SpotlightCard>
-              </div>
+              </TiltedCard>
             </div>
 
             {/* Right Column: Desktop Studio Bento Wing (col-span-7 on desktop, toggleable on mobile) */}

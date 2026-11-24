@@ -5,8 +5,8 @@ export const PROFILE_DATA: ProfileCardConfig = {
     name: "ARADHYA KASHIV",
     nickname: "AK",
     badge: "Verified Developer",
-    title: "FullStack Developer & AI Engineer",
-    bio: "Building intelligent full-stack architectures & high-impact AI systems.",
+    title: "FullStack Developer | AI Software Engineer",
+    bio: "Architecting scalable web applications, real-time systems & intelligent sub-200ms RAG pipelines with Next.js, Node.js & PostgreSQL.",
     location: "Indore, India",
     avatar: "/avatar.jpg",
     status: {

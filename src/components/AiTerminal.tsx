@@ -16,11 +16,11 @@ interface CommandLog {
 }
 
 const PRESET_CHIPS = [
-  { label: '🤖 AI Stack', cmd: 'skills --ai' },
-  { label: '⚡ Core Tech', cmd: 'skills' },
-  { label: '🚀 Projects', cmd: 'projects' },
+  { label: '🤖 JuriSight (RAG)', cmd: 'projects --jurisight' },
+  { label: '🎙️ AI Interview', cmd: 'projects --interview' },
+  { label: '⚡ Core Skills', cmd: 'skills' },
+  { label: '🧠 AI Stack', cmd: 'skills --ai' },
   { label: '💼 Hire Me', cmd: 'hire' },
-  { label: '🖥️ Neofetch', cmd: 'neofetch' },
 ];
 
 export const AiTerminal: React.FC<AiTerminalProps> = ({
@@ -76,46 +76,77 @@ export const AiTerminal: React.FC<AiTerminalProps> = ({
       output = (
         <div className="space-y-1 text-slate-300">
           <p className="text-sky-400 font-bold">Available Commands:</p>
-          <p>• <span className="text-emerald-400">skills</span> - Full developer tech matrix</p>
-          <p>• <span className="text-emerald-400">skills --ai</span> - AI, LLMs, Agents & RAG expertise</p>
-          <p>• <span className="text-emerald-400">projects</span> - Production systems & live links</p>
-          <p>• <span className="text-emerald-400">hire</span> - Availability & collaborative engagement</p>
-          <p>• <span className="text-emerald-400">neofetch</span> - Developer hardware & environment telemetry</p>
-          <p>• <span className="text-emerald-400">clear</span> - Clear terminal session</p>
+          <p>• <span className="text-emerald-400">skills</span> - Full engineering matrix (Languages, Frontend, Backend, DBs)</p>
+          <p>• <span className="text-emerald-400">skills --ai</span> - OpenAI, Gemini, RAG & pgvector systems</p>
+          <p>• <span className="text-emerald-400">projects</span> - Real featured technical projects</p>
+          <p>• <span className="text-emerald-400">hire</span> - Availability & direct contact methods</p>
+          <p>• <span className="text-emerald-400">neofetch</span> - System & developer telemetry</p>
+          <p>• <span className="text-emerald-400">clear</span> - Clear terminal output</p>
         </div>
       );
     } else if (lower.startsWith('skills --ai')) {
       output = (
         <div className="space-y-1 text-slate-200">
-          <p className="text-purple-400 font-bold">🧠 AI & Machine Learning Architecture:</p>
-          <p>• <span className="text-emerald-400">LLM Orchestration:</span> LangChain, LangGraph, Multi-Agent Systems</p>
-          <p>• <span className="text-emerald-400">RAG & Retrieval:</span> Hybrid Vector Search, Milvus, Qdrant, Pinecone</p>
-          <p>• <span className="text-emerald-400">Model Deployment:</span> Ollama, vLLM, HuggingFace, OpenAI/Gemini APIs</p>
-          <p>• <span className="text-emerald-400">Backend AI:</span> Python, FastAPI, Async Worker Pipelines, PyTorch</p>
+          <p className="text-purple-400 font-bold">🧠 AI & Intelligent Systems (Verified):</p>
+          <p>• <span className="text-emerald-400">LLM APIs:</span> OpenAI API, Google Gemini API</p>
+          <p>• <span className="text-emerald-400">RAG & Vector Search:</span> pgvector, Vector Embeddings, Semantic Search, sub-200ms Latency</p>
+          <p>• <span className="text-emerald-400">AI Automation:</span> Prompt Engineering, n8n, Make</p>
         </div>
       );
     } else if (lower.startsWith('skills')) {
       output = (
         <div className="space-y-1 text-slate-200">
-          <p className="text-sky-400 font-bold">⚡ FullStack Core Competencies:</p>
-          <p>• <span className="text-emerald-400">Frontend:</span> React 19, TypeScript, Next.js, Tailwind CSS, Framer Motion</p>
-          <p>• <span className="text-emerald-400">Backend:</span> Node.js, Express, Python FastAPI, RESTful & GraphQL APIs</p>
-          <p>• <span className="text-emerald-400">Databases:</span> PostgreSQL, Supabase, MongoDB, Redis, Vector DBs</p>
-          <p>• <span className="text-emerald-400">DevOps & Cloud:</span> Docker, Linux, AWS, Vercel, CI/CD Actions</p>
+          <p className="text-sky-400 font-bold">⚡ Technical Skills (From Resume):</p>
+          <p>• <span className="text-emerald-400">Languages:</span> TypeScript, JavaScript (ES6+), Python 3, C++, SQL, C</p>
+          <p>• <span className="text-emerald-400">Frontend:</span> Next.js (App Router), React.js, Tailwind CSS, Responsive UI/UX</p>
+          <p>• <span className="text-emerald-400">Backend:</span> Node.js, Express.js, RESTful APIs, WebSockets (Socket.IO), Firebase Auth, JWT</p>
+          <p>• <span className="text-emerald-400">Databases:</span> PostgreSQL, pgvector, Prisma ORM, MongoDB, MySQL, Firebase Firestore</p>
+          <p>• <span className="text-emerald-400">Tools:</span> Git, GitHub Actions (CI/CD), Linux/Bash, Vercel, Postman, Figma</p>
+        </div>
+      );
+    } else if (lower.includes('jurisight')) {
+      output = (
+        <div className="p-2.5 rounded-lg bg-white/[0.04] border border-white/10 space-y-1">
+          <p className="text-sky-400 font-bold">🏛️ JuriSight – Legal Intelligence Platform</p>
+          <p className="text-[10.5px] text-slate-300">
+            Enterprise document intelligence platform that processes and summarizes 500+ page filings with 92% clause extraction accuracy.
+          </p>
+          <p className="text-[10px] text-slate-400">
+            • Sub-200ms vector search via pgvector cosine similarity indexing and Prisma ORM.
+          </p>
+          <p className="text-[10px] text-slate-400">
+            • Intelligent failover router prioritizing Google Gemini with automated fallback to OpenAI API.
+          </p>
+          <p className="text-[9.5px] font-mono text-emerald-400 mt-1">Stack: React • Node.js • Express.js • PostgreSQL • pgvector • Prisma ORM</p>
+        </div>
+      );
+    } else if (lower.includes('interview')) {
+      output = (
+        <div className="p-2.5 rounded-lg bg-white/[0.04] border border-white/10 space-y-1">
+          <p className="text-sky-400 font-bold">🎙️ AI Mock Interview Simulation Platform</p>
+          <p className="text-[10.5px] text-slate-300">
+            Interactive technical interview simulator delivering sub-1.5s voice turnaround times coupling real-time audio capture with streaming LLM generation.
+          </p>
+          <p className="text-[9.5px] font-mono text-emerald-400 mt-1">Stack: Next.js • React.js • Node.js • Web Audio API • OpenAI API</p>
         </div>
       );
     } else if (lower === 'projects') {
       output = (
         <div className="space-y-2 text-slate-200">
           <div className="p-2 rounded-lg bg-white/[0.04] border border-white/10">
-            <p className="text-sky-400 font-bold">1. Autonomous Multi-Agent AI Engine</p>
-            <p className="text-[10px] text-slate-400">Self-evaluating agent swarm orchestrating research and code review.</p>
-            <p className="text-[9.5px] font-mono text-emerald-400 mt-1">Stack: Python • FastAPI • LangGraph • VectorDB</p>
+            <p className="text-sky-400 font-bold">1. JuriSight – Legal Intelligence Platform</p>
+            <p className="text-[10px] text-slate-400">Summarizes 500+ page filings with sub-200ms pgvector RAG pipeline & Gemini/OpenAI failover.</p>
+            <p className="text-[9.5px] font-mono text-emerald-400 mt-1">Stack: React • Node.js • PostgreSQL • pgvector • Prisma</p>
           </div>
           <div className="p-2 rounded-lg bg-white/[0.04] border border-white/10">
-            <p className="text-sky-400 font-bold">2. High-Performance Web SaaS & NFC Bridge</p>
-            <p className="text-[10px] text-slate-400">Tactile digital identity portal with sub-second Edge response.</p>
-            <p className="text-[9.5px] font-mono text-emerald-400 mt-1">Stack: React 19 • TypeScript • Tailwind • Web Audio</p>
+            <p className="text-sky-400 font-bold">2. AI Mock Interview Simulation Platform</p>
+            <p className="text-[10px] text-slate-400">Sub-1.5s turnaround voice evaluation engine coupling real-time audio with streaming LLMs.</p>
+            <p className="text-[9.5px] font-mono text-emerald-400 mt-1">Stack: Next.js • React.js • Node.js • Web Audio • OpenAI</p>
+          </div>
+          <div className="p-2 rounded-lg bg-white/[0.04] border border-white/10">
+            <p className="text-sky-400 font-bold">3. Real-Time Collaborative Messaging Platform</p>
+            <p className="text-[10px] text-slate-400">150+ concurrent socket connections with sub-50ms message propagation and JWT auth.</p>
+            <p className="text-[9.5px] font-mono text-emerald-400 mt-1">Stack: React • Node.js • Express.js • MongoDB • Socket.IO • Firebase</p>
           </div>
         </div>
       );

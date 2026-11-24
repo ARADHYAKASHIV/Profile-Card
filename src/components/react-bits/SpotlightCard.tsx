@@ -78,7 +78,7 @@ const falloff = (color: string, softness: number) => {
 };
 
 const CARD =
-  'relative isolate overflow-hidden rounded-[24px] sm:rounded-[28px] backdrop-blur-2xl transition-colors duration-300 [background-color:var(--spotlight-card-surface)] [box-shadow:var(--spotlight-card-shadow)]';
+  'relative rounded-[24px] sm:rounded-[28px] backdrop-blur-2xl transition-colors duration-300 [background-color:var(--spotlight-card-surface)] [box-shadow:var(--spotlight-card-shadow)] [transform-style:preserve-3d]';
 
 export const SpotlightCard = ({
   children,

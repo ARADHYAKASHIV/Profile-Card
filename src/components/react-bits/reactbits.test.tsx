@@ -4,6 +4,7 @@ import React from 'react';
 import { SpotlightCard } from './SpotlightCard.tsx';
 import { DecryptedText } from './DecryptedText.tsx';
 import { ClickSpark } from './ClickSpark.tsx';
+import { TiltedCard } from './TiltedCard.tsx';
 
 describe('ReactBits Component Suite', () => {
   it('mounts SpotlightCard with children', () => {
@@ -13,6 +14,16 @@ describe('ReactBits Component Suite', () => {
       </SpotlightCard>
     );
     expect(screen.getByText('Spotlight Content')).toBeInTheDocument();
+  });
+
+  it('mounts TiltedCard with front and back content', () => {
+    render(
+      <TiltedCard backContent={<p>Back Content</p>}>
+        <p>Front Content</p>
+      </TiltedCard>
+    );
+    expect(screen.getByText('Front Content')).toBeInTheDocument();
+    expect(screen.getByText('Back Content')).toBeInTheDocument();
   });
 
   it('mounts DecryptedText with target text', () => {

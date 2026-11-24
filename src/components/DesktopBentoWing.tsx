@@ -84,7 +84,7 @@ export const DesktopBentoWing: React.FC<DesktopBentoWingProps> = ({
   return (
     <div className="flex flex-col gap-3 w-full h-full justify-between">
       {/* Top Telemetry & Controls Bento Bar */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
         {/* Live Indore Local Clock Widget */}
         <div
           className={`p-3 rounded-2xl border flex items-center justify-between transition-all ${
@@ -152,36 +152,6 @@ export const DesktopBentoWing: React.FC<DesktopBentoWingProps> = ({
             })}
           </div>
         </div>
-
-        {/* Tactile Audio Feedback Switcher */}
-        <div
-          className={`p-3 rounded-2xl border flex items-center justify-between transition-all ${
-            isLight
-              ? 'bg-white/90 border-slate-200/90 shadow-xs'
-              : 'bg-[#0E1017]/85 border-white/[0.08] shadow-md backdrop-blur-md'
-          }`}
-        >
-          <div className="flex items-center gap-2">
-            <span className={`text-xs font-bold ${isLight ? 'text-slate-800' : 'text-slate-200'}`}>
-              Tactile Sound
-            </span>
-          </div>
-
-          <button
-            onClick={handleToggleSound}
-            className={`px-3 py-1 rounded-full text-[11px] font-medium border flex items-center gap-1.5 transition-all cursor-pointer ${
-              soundOn
-                ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400'
-                : isLight
-                ? 'bg-slate-100 border-slate-300 text-slate-500'
-                : 'bg-white/[0.04] border-white/10 text-slate-400'
-            }`}
-            title="Toggle Tactile Web Audio Pops"
-          >
-            {soundOn ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
-            <span>{soundOn ? 'Sound On' : 'Muted'}</span>
-          </button>
-        </div>
       </div>
 
       {/* Centerpiece: Interactive AI Terminal */}
@@ -193,7 +163,7 @@ export const DesktopBentoWing: React.FC<DesktopBentoWingProps> = ({
 
       {/* Bottom Bento: Featured Projects & Instant Message Dispatch */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
-        {/* Project 1: Multi-Agent AI System */}
+        {/* Project 1: JuriSight Legal Intelligence */}
         <a
           href="https://github.com/aradhyakashiv"
           target="_blank"
@@ -212,19 +182,19 @@ export const DesktopBentoWing: React.FC<DesktopBentoWingProps> = ({
             <div className="flex items-center justify-between mb-1.5">
               <span className="text-[10px] font-mono text-purple-400 flex items-center gap-1 font-semibold">
                 <Cpu className="w-3 h-3" />
-                <span>AI SYSTEM</span>
+                <span>RAG & AI SYSTEM</span>
               </span>
               <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-400 group-hover:translate-x-0.5 transition-transform" />
             </div>
             <h4 className={`text-xs font-bold leading-snug ${isLight ? 'text-slate-900' : 'text-white'}`}>
-              Autonomous Multi-Agent Swarm
+              JuriSight – Legal Intelligence
             </h4>
             <p className="text-[10.5px] text-slate-400 mt-1 line-clamp-2">
-              Coordinated LangGraph agent pipeline performing automated analysis and synthesis.
+              Enterprise document intelligence & sub-200ms pgvector RAG pipeline summarizing 500+ page filings.
             </p>
           </div>
           <div className="flex flex-wrap gap-1 mt-2">
-            {['LangGraph', 'FastAPI', 'PyTorch'].map((tag) => (
+            {['React', 'Node.js', 'PostgreSQL', 'pgvector', 'Prisma'].map((tag) => (
               <span
                 key={tag}
                 className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-white/[0.04] border border-white/10 text-slate-300"
@@ -235,9 +205,9 @@ export const DesktopBentoWing: React.FC<DesktopBentoWingProps> = ({
           </div>
         </a>
 
-        {/* Project 2: High-Performance FullStack SaaS */}
+        {/* Project 2: AI Mock Interview Simulator */}
         <a
-          href="https://aradhyakashiv.in"
+          href="https://github.com/aradhyakashiv"
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => {
@@ -254,19 +224,19 @@ export const DesktopBentoWing: React.FC<DesktopBentoWingProps> = ({
             <div className="flex items-center justify-between mb-1.5">
               <span className="text-[10px] font-mono text-sky-400 flex items-center gap-1 font-semibold">
                 <Layers className="w-3 h-3" />
-                <span>FULLSTACK SAAS</span>
+                <span>AI VOICE & NEXT.JS</span>
               </span>
               <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-sky-400 group-hover:translate-x-0.5 transition-transform" />
             </div>
             <h4 className={`text-xs font-bold leading-snug ${isLight ? 'text-slate-900' : 'text-white'}`}>
-              FullStack Enterprise Platform
+              AI Mock Interview Simulator
             </h4>
             <p className="text-[10.5px] text-slate-400 mt-1 line-clamp-2">
-              Modern micro-frontend stack with serverless PostgreSQL and edge optimization.
+              Conversational interview simulator delivering sub-1.5s voice turnaround coupling streaming LLMs with Web Audio.
             </p>
           </div>
           <div className="flex flex-wrap gap-1 mt-2">
-            {['React 19', 'Next.js', 'Postgres'].map((tag) => (
+            {['Next.js', 'React.js', 'Node.js', 'OpenAI API'].map((tag) => (
               <span
                 key={tag}
                 className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-white/[0.04] border border-white/10 text-slate-300"

@@ -8,15 +8,15 @@ describe('AiTerminal', () => {
   it('renders terminal window and default prompt chips', () => {
     render(<AiTerminal theme="dark" />);
     expect(screen.getByText(/aradhya@dev-studio/i)).toBeInTheDocument();
-    expect(screen.getByText(/🤖 AI Stack/i)).toBeInTheDocument();
-    expect(screen.getByText(/🚀 Projects/i)).toBeInTheDocument();
+    expect(screen.getByText(/🤖 JuriSight \(RAG\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/🧠 AI Stack/i)).toBeInTheDocument();
   });
 
   it('runs command when preset chip is clicked', () => {
     render(<AiTerminal theme="dark" />);
-    const aiChip = screen.getByText(/🤖 AI Stack/i);
+    const aiChip = screen.getByText(/🧠 AI Stack/i);
     fireEvent.click(aiChip);
-    expect(screen.getByText(/AI & Machine Learning Architecture/i)).toBeInTheDocument();
+    expect(screen.getByText(/AI & Intelligent Systems/i)).toBeInTheDocument();
   });
 });
 

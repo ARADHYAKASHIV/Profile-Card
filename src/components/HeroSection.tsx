@@ -16,7 +16,7 @@ interface HeroSectionProps {
   onSelectSkill?: (skill: string) => void;
 }
 
-const TECH_PILLS = ['AI Systems', 'FullStack', 'Next.js', 'Python', 'LangChain'];
+const TECH_PILLS = ['Next.js', 'React.js', 'Node.js', 'Python', 'PostgreSQL', 'RAG / AI'];
 
 const STATUS_OPTIONS = [
   'Available for work',
@@ -159,7 +159,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <span>{person.location}</span>
         </div>
 
-        {/* Interactive Tech Stack Pills */}
+        {/* Interactive Tech Stack Pills: Beautifully wrapped & centered */}
         <div className="flex flex-wrap items-center justify-center gap-1 mt-1.5 max-w-[340px]">
           {TECH_PILLS.map((pill) => {
             const isSelected = activePill === pill;

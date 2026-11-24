@@ -143,16 +143,16 @@ export function App() {
           isLight ? 'bg-[#F8FAFC] text-slate-900' : 'bg-[#07080B] text-white'
         }`}
       >
-        {/* Dynamic atmospheric ambient glows matching active accent color */}
+        {/* Dynamic atmospheric ambient glows matching active accent color (optimized for mobile GPU) */}
         <div
-          className={`fixed -top-24 left-1/4 w-96 h-96 rounded-full blur-[140px] pointer-events-none transition-all duration-700 ${
-            isLight ? 'opacity-35' : 'opacity-45'
+          className={`fixed -top-24 left-1/4 w-72 h-72 sm:w-96 sm:h-96 rounded-full blur-[60px] sm:blur-[140px] pointer-events-none transition-all duration-700 ${
+            isLight ? 'opacity-30 sm:opacity-35' : 'opacity-35 sm:opacity-45'
           }`}
           style={{ backgroundColor: accentColor }}
         />
         <div
-          className={`fixed -bottom-20 right-1/4 w-96 h-96 rounded-full blur-[130px] pointer-events-none transition-all duration-700 ${
-            isLight ? 'bg-emerald-400/20 opacity-30' : 'bg-emerald-600/15 opacity-40'
+          className={`fixed -bottom-20 right-1/4 w-72 h-72 sm:w-96 sm:h-96 rounded-full blur-[50px] sm:blur-[130px] pointer-events-none transition-all duration-700 ${
+            isLight ? 'bg-emerald-400/20 opacity-20 sm:opacity-30' : 'bg-emerald-600/15 opacity-25 sm:opacity-40'
           }`}
         />
 
@@ -266,6 +266,7 @@ export function App() {
                 flipped={isCardFlipped}
                 onFlip={(flipped) => setIsCardFlipped(flipped)}
                 flipOnClick={false}
+                gyroscope={false}
                 rotateAmplitude={13}
                 scaleOnHover={1.04}
                 smoothness={0.65}

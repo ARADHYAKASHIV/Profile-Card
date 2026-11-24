@@ -299,7 +299,9 @@ export const ClickSpark = forwardRef<ClickSparkHandle, ClickSparkProps>(
       };
 
       const onClick = (event: MouseEvent) => {
-        if ('pointerType' in event && event.pointerType === 'mouse') return;
+        // Prevent particle canvas creation on mobile touches to preserve 60fps responsiveness
+        if ('pointerType' in event && event.pointerType !== 'mouse') return;
+        if (typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches) return;
         const target = event.target instanceof Element ? event.target : root;
         const rect = target.getBoundingClientRect();
         spawn(rect.left + rect.width / 2, rect.top + rect.height / 2);

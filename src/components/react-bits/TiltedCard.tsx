@@ -458,11 +458,8 @@ export const TiltedCard: React.FC<TiltedCardProps> = ({
     };
 
     const askMotion = () => {
-      const s = settingsRef.current;
-      if (!s.gyroscope || !coarse || tilt.asked) return;
-      tilt.asked = true;
-      const request = (window as unknown as { DeviceOrientationEvent?: { requestPermission?: () => Promise<string> } }).DeviceOrientationEvent?.requestPermission;
-      if (typeof request === 'function') request.call(window).catch(() => {});
+      // Gyroscope disabled on mobile to prevent continuous sensor loops & freezing
+      return;
     };
 
     const onDown = (event: PointerEvent) => {
@@ -472,10 +469,11 @@ export const TiltedCard: React.FC<TiltedCardProps> = ({
       press.y = event.clientY;
       pointer.mouse = event.pointerType === 'mouse' || event.pointerType === 'pen';
       if (!pointer.mouse) {
-        pointer.inside = true;
-        track(event);
+        pointer.inside = false;
+        return; // Ignore touch tilt to prevent mobile lag
       }
-      askMotion();
+      pointer.inside = true;
+      track(event);
       wake();
     };
     const onUp = (event: PointerEvent) => {
@@ -492,6 +490,8 @@ export const TiltedCard: React.FC<TiltedCardProps> = ({
     };
 
     const onOrientation = (event: DeviceOrientationEvent) => {
+      const s = settingsRef.current;
+      if (!s.gyroscope || coarse) return;
       if (event.gamma == null || event.beta == null) return;
       tilt.gamma = event.gamma;
       tilt.beta = event.beta;
@@ -500,7 +500,7 @@ export const TiltedCard: React.FC<TiltedCardProps> = ({
         tilt.baseBeta = event.beta;
         tilt.calibrated = true;
       }
-      tilt.live = coarse;
+      tilt.live = true;
       wake();
     };
 
@@ -528,7 +528,9 @@ export const TiltedCard: React.FC<TiltedCardProps> = ({
     window.addEventListener('pointercancel', onCancel, { passive: true });
     window.addEventListener('pointermove', onWindowMove, { passive: true });
     document.documentElement.addEventListener('pointerleave', onWindowLeave);
-    window.addEventListener('deviceorientation', onOrientation);
+    if (settingsRef.current.gyroscope && !coarse) {
+      window.addEventListener('deviceorientation', onOrientation);
+    }
 
     let observer: IntersectionObserver | null = null;
     if (typeof IntersectionObserver !== 'undefined') {

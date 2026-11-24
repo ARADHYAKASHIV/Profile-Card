@@ -230,6 +230,7 @@ export const SpotlightCard = ({
     wakeRef.current = wake;
 
     const onMove = (event: PointerEvent) => {
+      if (event.pointerType === 'touch') return;
       pointer.x = event.clientX;
       pointer.y = event.clientY;
       pointer.active = true;
@@ -241,6 +242,7 @@ export const SpotlightCard = ({
       wake();
     };
     const onDown = (event: PointerEvent) => {
+      if (event.pointerType === 'touch') return;
       pointer.x = event.clientX;
       pointer.y = event.clientY;
       pointer.active = true;
@@ -264,6 +266,7 @@ export const SpotlightCard = ({
       wake();
     };
     const onScroll = () => {
+      if (typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches) return;
       if (pointer.active || state.presence > 0) wake();
     };
 
